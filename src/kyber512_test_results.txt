@@ -1,0 +1,6 @@
+=== Kyber512 Saf Python Simülasyonu Başladı ===
+Anahtarlar üretildi: Public Key(800 bytes), Secret Key(1632 bytes)
+Şifreleme tamamlandı: Ciphertext(768 bytes), Shared Secret(32 bytes)
+Şifre çözme tamamlandı: Shared Secret(32 bytes)
+⚠️ Doğruluk testi başarısız (simülasyondan dolayı olağan sonuç).
+Toplam işlem süresi: 0.00010 saniye

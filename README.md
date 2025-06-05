@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="https://img.shields.io/github/languages/count/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=blueviolet" alt="Language Count">
-  <img src="https://img.shields.io/github/languages/top/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=1e90ff" alt="Top Language">
-  <img src="https://img.shields.io/github/last-commit/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=ff69b4" alt="Last Commit">
-  <img src="https://img.shields.io/github/license/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=yellow" alt="License">
+  <img src="https://img.shields.io/github/languages/count/ibrahimyigitcetin/Kyber-RSASimToolkit?style=flat-square&color=blueviolet" alt="Language Count">
+  <img src="https://img.shields.io/github/languages/top/ibrahimyigitcetin/Kyber-RSASimToolkit?style=flat-square&color=1e90ff" alt="Top Language">
+  <img src="https://img.shields.io/github/last-commit/ibrahimyigitcetin/Kyber-RSASimToolkit?style=flat-square&color=ff69b4" alt="Last Commit">
+  <img src="https://img.shields.io/github/license/ibrahimyigitcetin/Kyber-RSASimToolkit?style=flat-square&color=yellow" alt="License">
   <img src="https://img.shields.io/badge/Status-Active-green?style=flat-square" alt="Status">
   <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=flat-square" alt="Contributions">
 </div>
@@ -49,8 +49,8 @@ See our plans in [ROADMAP.md](ROADMAP.md).
 
 1. **Clone the Repository / *Depoyu Klonlayın***:  
    ```bash
-   git clone https://github.com/YOUR_USERNAME/QUANTUMTESTERPROJECT.git
-   cd QUANTUMTESTERPROJECT
+   git clone https://github.com/YOUR_USERNAME/Kyber-RSASimToolkit.git
+   cd Kyber-RSASimToolkit
    ```
 
 2. **Set Up Virtual Environment / *Sanal Ortam Kurulumu*** (Recommended):  
@@ -95,7 +95,7 @@ python sim_and_test_files/kyber512_sim.py
 
 Topluluk katkılarını memnuniyetle karşılıyoruz! Katkıda bulunmak için:  
 1. Fork the repository.  
-2. Clone your fork (`git clone git@github.com:YOUR_USERNAME/QUANTUMTESTERPROJECT.git`).  
+2. Clone your fork (`git clone git@github.com:YOUR_USERNAME/Kyber-RSASimToolkit.git`).  
 3. Create a branch (`git checkout -b feature/your-feature`).  
 4. Commit changes with clear messages.  
 5. Push to your fork (`git push origin feature/your-feature`).  

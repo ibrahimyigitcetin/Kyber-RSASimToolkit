@@ -7,9 +7,9 @@
   <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=flat-square" alt="Contributions">
 </div>
 
-# QUANTUMTESTERPROJECT
+# Kyber-RSASimToolkit
 
-*QUANTUMTESTERPROJECT*, kuantum dirençli şifreleme algoritmalarını (örneğin CRYSTALS-Kyber (Kyber512)) geleneksel algoritmalar (RSA-2048 gibi) ile karşılaştıran bir araştırma ve test projesidir.  
+*Kyber-RSASimToolkit*, kuantum dirençli şifreleme algoritmalarını (örneğin CRYSTALS-Kyber (Kyber512)) geleneksel algoritmalar (RSA-2048 gibi) ile karşılaştıran bir araştırma ve test projesidir.  
 Python tabanlı simülasyonlar ve performans testleri aracılığıyla hız, bellek kullanımı ve çıktı boyutları gibi temel metrikleri analiz ederek kuantum sonrası şifrelemenin pratik etkilerini anlamayı amaçlar.
 
 ---

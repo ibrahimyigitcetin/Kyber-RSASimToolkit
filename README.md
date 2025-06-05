@@ -1,41 +1,31 @@
 <div align="center">
-  <img src="https://img.shields.io/github/languages/count/keyvanarasteh/Project?style=flat-square&color=blueviolet" alt="Language Count">
-  <img src="https://img.shields.io/github/languages/top/keyvanarasteh/Project?style=flat-square&color=1e90ff" alt="Top Language">
-  <img src="https://img.shields.io/github/last-commit/keyvanarasteh/Project?style=flat-square&color=ff69b4" alt="Last Commit">
-  <img src="https://img.shields.io/github/license/keyvanarasteh/Project?style=flat-square&color=yellow" alt="License">
+  <img src="https://img.shields.io/github/languages/count/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=blueviolet" alt="Language Count">
+  <img src="https://img.shields.io/github/languages/top/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=1e90ff" alt="Top Language">
+  <img src="https://img.shields.io/github/last-commit/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=ff69b4" alt="Last Commit">
+  <img src="https://img.shields.io/github/license/YOUR_USERNAME/QUANTUMTESTERPROJECT?style=flat-square&color=yellow" alt="License">
   <img src="https://img.shields.io/badge/Status-Active-green?style=flat-square" alt="Status">
   <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=flat-square" alt="Contributions">
 </div>
 
-# Project Name
-*Proje Adı*
+# QUANTUMTESTERPROJECT
 
-A brief, engaging description of your project.  
-*Projenizin kısa ve ilgi çekici bir açıklaması.*
+*QUANTUMTESTERPROJECT*, kuantum dirençli şifreleme algoritmalarını (örneğin CRYSTALS-Kyber (Kyber512)) geleneksel algoritmalar (RSA-2048 gibi) ile karşılaştıran bir araştırma ve test projesidir.  
+Python tabanlı simülasyonlar ve performans testleri aracılığıyla hız, bellek kullanımı ve çıktı boyutları gibi temel metrikleri analiz ederek kuantum sonrası şifrelemenin pratik etkilerini anlamayı amaçlar.
 
 ---
 
 ## Features / *Özellikler*
 
-- **Feature 1:** Description of the feature.  
-  *Özellik 1: Özelliğin açıklaması.*
-- **Feature 2:** Another cool thing it does.  
-  *Özellik 2: Yaptığı başka bir harika şey.*
-- **Feature 3:** One more for good measure.  
-  *Özellik 3: Ve bir tane daha.*
-- Add more as they develop.  
-  *Geliştikçe daha fazla ekleyin.*
+- **Kyber512 Simülasyonu:** Kyber512'nin yapısal ve performans testleri için simülasyonu.  
+- **Karşılaştırmalı Analiz:** Kyber512 ve RSA-2048'in hız, bellek ve çıktı boyutları açısından karşılaştırmalı analizi.  
+- **NIST Dokümantasyonu:** NIST Kuantum Sonrası Şifreleme standartları ve algoritma seçim sürecinin detaylı dokümantasyonu.
 
 ---
 
 ## Team / *Ekip*
 
-- **219*****031** - Name Surname: *Role or Contribution*  
-  *Ad Soyad: Rolü veya Katkısı*
-- **Another Member** - Name Surname: *Role or Contribution*  
-  *Ad Soyad: Rolü veya Katkısı*
-- Add more members as needed.  
-  *Gerektiğinde daha fazla üye ekleyin.*
+- **2320191010** - *İbrahim Yiğit ÇETİN*  
+- **2420191037** - *Eray TURAN*
 
 ---
 
@@ -48,11 +38,10 @@ See our plans in [ROADMAP.md](ROADMAP.md).
 
 ## Research / *Araştırmalar*
 
-| Topic / *Başlık*        | Link                                    | Description / *Açıklama*                        |
-|-------------------------|-----------------------------------------|------------------------------------------------|
-| Aircrack Deep Dive      | [researchs/aircrack.md](researchs/aircrack.md) | In-depth analysis of Aircrack-ng suite. / *Aircrack-ng paketinin derinlemesine analizi.* |
-| Example Research Topic  | [researchs/your-research-file.md](researchs/your-research-file.md) | Brief overview of this research. / *Bu araştırmanın kısa bir özeti.* |
-| Add More Research       | *Link to your other research files*     | *Description of the research*                  |
+| Topic / *Başlık*              | Link                                        | Description / *Açıklama*                                                         |
+|------------------------------|---------------------------------------------|----------------------------------------------------------------------------------|
+| Kyber Spesifikasyonu         | [references/kyber-specification.pdf](references/kyber-specification.pdf) | CRYSTALS-Kyber algoritmasının resmi spesifikasyonları ve NIST standartları.     |
+| RFC 9180 - Hibrit Şifreleme  | [references/rfc9180.pdf](references/rfc9180.pdf)           | Hibrit Kamu Anahtar Şifreleme (HPKE) standartları ve Kyber entegrasyonu.        |
 
 ---
 
@@ -60,14 +49,14 @@ See our plans in [ROADMAP.md](ROADMAP.md).
 
 1. **Clone the Repository / *Depoyu Klonlayın***:  
    ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-   cd YOUR_REPO
+   git clone https://github.com/YOUR_USERNAME/QUANTUMTESTERPROJECT.git
+   cd QUANTUMTESTERPROJECT
    ```
 
 2. **Set Up Virtual Environment / *Sanal Ortam Kurulumu*** (Recommended):  
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # Windows: venv\Scripts\activate
    ```
 
 3. **Install Dependencies / *Bağımlılıkları Yükleyin***:  
@@ -75,42 +64,44 @@ See our plans in [ROADMAP.md](ROADMAP.md).
    pip install -r requirements.txt
    ```
 
+   **Not:** Eğer `requirements.txt` yoksa:  
+   ```bash
+   pip install psutil cryptography
+   ```
+
 ---
 
 ## Usage / *Kullanım*
 
-Run the project:  
-*Projeyi çalıştırın:*
-
+Projeyi çalıştırın:  
 ```bash
-python main.py --input your_file.pcap --output results.txt
+python sim_and_test_files/kyber512_sim.py
 ```
 
-**Steps**:  
-1. Prepare input data (*explain data needed*).  
-2. Run the script with arguments (*explain key arguments*).  
-3. Check output (*explain where to find results*).  
+**Steps / *Adımlar***:  
+1. **Giriş Verilerini Hazırlayın**: Harici giriş verisine gerek yoktur; veriler dahili olarak üretilir (`os.urandom`).  
+2. **Betiği Argümanlarla Çalıştırın**:  
+   - Zamanlama testi: `python sim_and_test_files/kyber_timing_test.py`  
+   - Bellek testi: `python sim_and_test_files/kyber_memory_test.py`  
+   - Çıktı boyutu testi: `python sim_and_test_files/kyber_output_size_test.py`
 
-*Adımlar*:  
-1. Giriş verilerini hazırlayın (*ne tür verilere ihtiyaç duyulduğunu açıklayın*).  
-2. Betiği argümanlarla çalıştırın (*önemli argümanları açıklayın*).  
-3. Çıktıyı kontrol edin (*sonuçları nerede bulacağınızı açıklayın*).
+3. **Çıktıyı Kontrol Edin**:  
+   - Sonuçlar konsola yazdırılır.  
+   - Ayrıca `kyber512_test_results.txt` gibi dosyalara ya da `kyber_and_rsa_results.md` gibi Markdown dosyalarına kaydedilir.
 
 ---
 
 ## Contributing / *Katkıda Bulunma*
 
-We welcome contributions! To help:  
+Topluluk katkılarını memnuniyetle karşılıyoruz! Katkıda bulunmak için:  
 1. Fork the repository.  
-2. Clone your fork (`git clone git@github.com:YOUR_USERNAME/YOUR_REPO.git`).  
+2. Clone your fork (`git clone git@github.com:YOUR_USERNAME/QUANTUMTESTERPROJECT.git`).  
 3. Create a branch (`git checkout -b feature/your-feature`).  
 4. Commit changes with clear messages.  
 5. Push to your fork (`git push origin feature/your-feature`).  
 6. Open a Pull Request.  
 
-Follow our coding standards (see [CONTRIBUTING.md](CONTRIBUTING.md)).  
-
-*Topluluk katkilerini memnuniyetle karşılıyoruz! Katkıda bulunmak için yukarıdaki adımları izleyin ve kodlama standartlarımıza uyun.*
+Follow our coding standards (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ---
 
@@ -121,24 +112,12 @@ Licensed under the [MIT License](LICENSE.md).
 
 ---
 
-## Acknowledgements / *Teşekkürler* (Optional)
+## Acknowledgements / *Teşekkürler*
 
 Thanks to:  
-- Awesome Library: For enabling X.  
-- Inspiration Source.  
-- Special thanks to...  
-
-*Teşekkürler: Harika kütüphaneler ve ilham kaynakları için.*
+- **CRYSTALS Ekibi** – Kyber algoritmasını geliştirdiği ve spesifikasyonları sağladığı için.  
+- **Cryptography Kütüphanesi** – Python’da güvenli RSA implementasyonları sağladığı için.  
+- **NIST PQC Girişimi** – Kuantum sonrası şifreleme standartlaştırmasını yönlendirdiği için.
 
 ---
 
-## Contact / *İletişim* (Optional)
-
-Project Maintainer: [Your Name/Org Name] - [your.email@example.com]  
-Found a bug? Open an issue.  
-
-*Proje Sorumlusu: [Adınız/Kuruluş Adınız] - [e-posta.adresiniz@ornek.com]. Hata bulursanız bir sorun bildirin.*
-
----
-
-*Replace placeholders (e.g., YOUR_USERNAME/YOUR_REPO) with your project details.*

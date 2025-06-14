@@ -1,6 +1,6 @@
-# KyberCrypto Toolkit
+# Kyber-RSA Simulation Toolkit
 
-**KyberCrypto Toolkit**, Python tabanlı, açık kaynaklı ve kullanıcı dostu bir post-kuantum kriptografi aracıdır. CRYSTALS-Kyber algoritmasını temel alarak kuantum-dirençli anahtar değişimi ve şifreleme süreçlerini otomatikleştirir. NIST’in PQC (Post-Quantum Cryptography) standartlaştırma sürecinde finalist olan Kyber algoritmasının üç güvenlik seviyesi olan **Kyber-512**, **Kyber-768** ve **Kyber-1024** desteklenmektedir. 
+**Kyber-RSA Simulation Toolkit**, Python tabanlı, açık kaynaklı ve kullanıcı dostu bir post-kuantum kriptografi aracıdır. CRYSTALS-Kyber algoritmasını temel alarak kuantum-dirençli anahtar değişimi ve şifreleme süreçlerini otomatikleştirir. NIST’in PQC (Post-Quantum Cryptography) standartlaştırma sürecinde finalist olan Kyber algoritmasının üç güvenlik seviyesi olan **Kyber-512**, **Kyber-768** ve **Kyber-1024** desteklenmektedir. 
 
 Araç; klasik şifreleme algoritmaları (RSA, ECC) ile karşılaştırmalı analizler sunar, gerçek zamanlı performans izlemesi, görsel raporlama, TLS/SSL entegrasyonu ve eğitimsel modüller gibi birçok yenilikçi özelliğe sahiptir.
 

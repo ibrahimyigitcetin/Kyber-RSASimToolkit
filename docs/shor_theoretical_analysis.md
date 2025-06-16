@@ -1,4 +1,4 @@
-# Adım 6: Shor Algoritması ile Kuantum Saldırı Simülasyonu ve Teorik Analiz
+# Shor Algoritması ile Kuantum Saldırı Simülasyonu ve Teorik Analiz
 
 ## Genel Bakış
 Bu adımda, Shor algoritmasının CRYSTALS-Kyber ve RSA algoritmaları üzerindeki etkisini teorik olarak analiz ettik ve RSA’nın kuantum saldırılarına karşı kırılganlığını göstermek için bir simülasyon gerçekleştirdik. Amaç, Kyber’ın kuantum dirençli yapısını doğrulamak ve RSA’nın zayıflığını vurgulamaktır.

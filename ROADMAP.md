@@ -59,7 +59,7 @@ pip install psutil cryptography
 
 ### 1. Kyber512 Simülasyon Betiği
 
-📁 `sim_and_test_files/kyber512_sim.py`
+📁 `src/kyber512_sim.py`
 
 ```python
 import os
@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
 ### 2. Kyber512 Zaman Ölçüm Betiği
 
-📁 `sim_and_test_files/kyber_timing_test.py`
+📁 `src/kyber_timing_test.py`
 
 ```python
 import timeit
@@ -151,7 +151,7 @@ print(f"Şifre Çözme: {decrypt_time:.6f} s")
 
 ### 3. RSA-2048 Zaman Ölçüm Betiği
 
-📁 `sim_and_test_files/rsa_timing_test.py`
+📁 `src/rsa_timing_test.py`
 
 ```python
 import timeit
@@ -191,7 +191,7 @@ print(f"Şifre Çözme: {decrypt_time:.6f} s")
 
 ### Kyber512 Bellek Kullanımı
 
-📁 `sim_and_test_files/kyber_memory_test.py`
+📁 `src/kyber_memory_test.py`
 
 ```python
 import os
@@ -217,7 +217,7 @@ print(f"Şifre Çözme: {memory_usage():.2f} KB")
 
 ### RSA Bellek Kullanımı
 
-📁 `sim_and_test_files/rsa_memory_test.py`
+📁 `src/rsa_memory_test.py`
 
 ```python
 import psutil, os
@@ -246,7 +246,7 @@ print(f"Şifre Çözme: {process.memory_info().rss / 1024:.2f} KB")
 
 ### Kyber512 Çıktı Analizi
 
-📁 `sim_and_test_files/kyber_output_size_test.py`
+📁 `src/kyber_output_size_test.py`
 
 ```python
 from kyber512_sim import Kyber512Sim
@@ -265,7 +265,7 @@ print(f"Shared Secret: {len(ss)} byte")
 
 ### RSA-2048 Çıktı Analizi
 
-📁 `sim_and_test_files/rsa_output_size_test.py`
+📁 `src/rsa_output_size_test.py`
 
 ```python
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
@@ -319,7 +319,7 @@ Kyber512 algoritmasının ağ üzerinden nasıl kullanılabileceğini test etmek
 
 ---
 
-### 📁 sim_and_test_files/kyber_server.py
+### 📁 src/kyber_server.py
 
 ```python
 import socket
@@ -361,7 +361,7 @@ def start_server():
 if __name__ == "__main__":
     start_server()
 ```
-### 📁 sim_and_test_files/kyber_client.py
+### 📁 src/kyber_client.py
 
 ```python
 import socket
@@ -410,7 +410,7 @@ Bu yapı sayesinde sadece bir parametre (ALGO) değiştirilerek farklı algoritm
 
 ---
 
-### 📁 sim_and_test_files/crypto_module.py
+### 📁 src/crypto_module.py
 
 ```python
 import os
@@ -476,7 +476,7 @@ class RSASim:
         )
 ```
 
-### 📁 sim_and_test_files/kyber_rsa_server.py
+### 📁 src/kyber_rsa_server.py
 
 ```python
 import socket
@@ -501,7 +501,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print(f"[🔐] Shared Secret (Server): {ss.hex()}")
 ```
 
-### 📁 sim_and_test_files/kyber_rsa_client.py
+### 📁 src/kyber_rsa_client.py
 
 ```python
 import socket
@@ -541,7 +541,7 @@ Bu adımda, RSA algoritmasının kuantum bilgisayarlar tarafından nasıl kırı
 
 ---
 
-### 📁 sim_and_test_files/shor_classical_sim.py
+### 📁 src/shor_classical_sim.py
 
 ```python
 import math

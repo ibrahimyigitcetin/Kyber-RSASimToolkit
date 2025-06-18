@@ -295,17 +295,6 @@ print(f"Plaintext: {len(b'Test message')} byte")
 
 ---
 
-## Karşılaştırmalı Raporlama
-
-📄 `kyber_and_rsa_results.md` içeriğinde:
-
-- Kyber ve RSA zamanlamaları (keygen/encrypt/decrypt süreleri)
-- Bellek kullanımı analizleri
-- Çıktı boyutu karşılaştırmaları
-- Grafikler/tablolarla özetlenmiş veriler
-
----
-
 ## Test Aşamaları
 
 | Test Betiği                        | Dosya                            | Çıktı/Kontrol                                       |
@@ -320,7 +309,276 @@ print(f"Plaintext: {len(b'Test message')} byte")
 
 ---
 
-## Sonuç
 
-Bu yol haritası ile post-kuantum ve klasik şifreleme algoritmalarının temel simülasyonlarını geliştirdiniz, performanslarını ölçtünüz ve karşılaştırdınız. Gelecekte, bu altyapı üzerine gerçek kriptografik kütüphanelerle performans testlerini entegre etmek mümkündür.
 
+## 🔗 Socket Tabanlı Kyber512 Simülasyonu
+
+Kyber512 algoritmasının ağ üzerinden nasıl kullanılabileceğini test etmek amacıyla, basit bir istemci-sunucu mimarisi kurulmuştur. Bu yapı, `socket` ve `threading` modülleri ile çalışmakta, istemciye public key gönderip, istemciden ciphertext alarak shared secret üretmektedir.
+
+> ❗ Bu yapı sadece eğitim ve test amaçlıdır. Gerçek şifreleme sistemleri için ağ güvenliği ve kimlik doğrulama katmanları da gereklidir.
+
+---
+
+### 📁 sim_and_test_files/kyber_server.py
+
+```python
+import socket
+import threading
+from kyber512_sim import Kyber512Sim
+
+HOST = '127.0.0.1'
+PORT = 65432
+
+kem = Kyber512Sim()
+public_key, secret_key = kem.keygen()
+
+def handle_client(conn, addr):
+    print(f"[+] {addr} bağlandı.")
+
+    conn.sendall(public_key)
+    print("[>] Public key gönderildi.")
+
+    ciphertext = conn.recv(1024)
+    print("[<] Ciphertext alındı.")
+
+    shared_secret = kem.decrypt(ciphertext, secret_key)
+    print(f"[✓] Shared secret (server): {shared_secret.hex()}")
+
+    conn.close()
+    print(f"[-] {addr} bağlantısı kapatıldı.")
+
+def start_server():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.listen()
+        print(f"[⚡] Sunucu {HOST}:{PORT} dinleniyor...")
+
+        while True:
+            conn, addr = s.accept()
+            thread = threading.Thread(target=handle_client, args=(conn, addr))
+            thread.start()
+
+if __name__ == "__main__":
+    start_server()
+```
+### 📁 sim_and_test_files/kyber_client.py
+
+```python
+import socket
+from kyber512_sim import Kyber512Sim
+
+HOST = '127.0.0.1'
+PORT = 65432
+
+kem = Kyber512Sim()
+
+def start_client():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((HOST, PORT))
+
+        public_key = s.recv(1024)
+        print("[<] Public key alındı.")
+
+        ciphertext, shared_secret = kem.encrypt(public_key)
+        print(f"[✓] Shared secret (client): {shared_secret.hex()}")
+
+        s.sendall(ciphertext)
+        print("[>] Ciphertext gönderildi.")
+
+if __name__ == "__main__":
+    start_client()
+```
+
+## 🧪 Test Senaryosu
+
+| Rol     | Script            | Açıklama                                                                 |
+|---------|-------------------|--------------------------------------------------------------------------|
+| Sunucu  | `kyber_server.py` | Kyber512 public key gönderir, ciphertext alır, shared secret üretir.    |
+| İstemci | `kyber_client.py` | Public key alır, shared secret üretir ve ciphertext gönderir.           |
+
+🔐 Bu yapı, TLS-benzeri key exchange yapılarının temelini anlamak için iyi bir örnektir.
+
+---
+
+## 🔁 RSA ve Kyber512 Tabanlı Plug-in Anahtar Paylaşım Modülü
+
+Bu bölümde, hem geleneksel RSA algoritmasını hem de post-kuantum CRYSTALS-Kyber512 algoritmasını destekleyen modüler ve değiştirilebilir bir istemci-sunucu altyapısı tanımlanmıştır.
+
+Bu yapı sayesinde sadece bir parametre (ALGO) değiştirilerek farklı algoritmalar kolayca test edilebilir.
+
+⚙️ Kullanıcı, `ALGO = "rsa"` veya `ALGO = "kyber"` olarak algoritmayı belirler.
+
+---
+
+### 📁 sim_and_test_files/crypto_module.py
+
+```python
+import os
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.backends import default_backend
+
+class Kyber512Sim:
+    def keygen(self):
+        pk = os.urandom(800)   # Simüle edilmiş public key
+        sk = os.urandom(1632)  # Simüle edilmiş secret key
+        return pk, sk
+
+    def encrypt(self, pk):
+        ct = os.urandom(768)
+        ss = os.urandom(32)
+        return ct, ss
+
+    def decrypt(self, ct, sk):
+        return os.urandom(32)
+
+class RSASim:
+    def keygen(self):
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048,
+            backend=default_backend()
+        )
+        public_key = private_key.public_key()
+        pem_public_key = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        pem_private_key = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        )
+        return pem_public_key, pem_private_key
+
+    def encrypt(self, pem_public_key):
+        public_key = serialization.load_pem_public_key(pem_public_key, backend=default_backend())
+        shared_secret = os.urandom(32)
+        ciphertext = public_key.encrypt(
+            shared_secret,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return ciphertext, shared_secret
+
+    def decrypt(self, ciphertext, pem_private_key):
+        private_key = serialization.load_pem_private_key(pem_private_key, password=None, backend=default_backend())
+        return private_key.decrypt(
+            ciphertext,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+```
+
+### 📁 sim_and_test_files/kyber_rsa_server.py
+
+```python
+import socket
+from crypto_module import Kyber512Sim, RSASim
+
+ALGO = "kyber"  # Değiştirilebilir: "rsa" / "kyber"
+PORT = 65432
+
+algo = Kyber512Sim() if ALGO == "kyber" else RSASim()
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind(('127.0.0.1', PORT))
+    s.listen()
+    print(f"[🔌] Sunucu dinlemede ({ALGO.upper()} modu)...")
+    conn, addr = s.accept()
+    with conn:
+        print(f"[+] Bağlantı: {addr}")
+        pk, sk = algo.keygen()
+        conn.sendall(pk)
+        ct = conn.recv(2048)
+        ss = algo.decrypt(ct, sk)
+        print(f"[🔐] Shared Secret (Server): {ss.hex()}")
+```
+
+### 📁 sim_and_test_files/kyber_rsa_client.py
+
+```python
+import socket
+from crypto_module import Kyber512Sim, RSASim
+
+ALGO = "kyber"  # Değiştirilebilir: "rsa" / "kyber"
+PORT = 65432
+
+algo = Kyber512Sim() if ALGO == "kyber" else RSASim()
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect(('127.0.0.1', PORT))
+    pk = s.recv(2048)
+    ct, ss = algo.encrypt(pk)
+    print(f"[🔐] Shared Secret (Client): {ss.hex()}")
+    s.sendall(ct)
+```
+
+## ✅ Test Durumları
+
+| Senaryo         | Ayar          | Açıklama                                |
+|-----------------|---------------|----------------------------------------|
+| ALGO = "kyber"  | Post-kuantum test | Kyber512 key exchange simülasyonu yapılır. |
+| ALGO = "rsa"    | Geleneksel algoritma testi | RSA ile shared secret aktarımı test edilir. |
+
+---
+
+### 🧠 Fayda
+
+Bu yapı sayesinde aynı test ortamı kullanılarak hem klasik RSA hem de post-kuantum Kyber algoritmalarının karşılaştırmalı performans ve işlev testleri yapılabilir.
+
+---
+
+## ⚠️ Shor Algoritması ile Kuantum Saldırı Simülasyonu (Klasik Model)
+
+Bu adımda, RSA algoritmasının kuantum bilgisayarlar tarafından nasıl kırılabileceğini göstermek amacıyla, Shor algoritmasının klasik (simüle edilmiş) bir versiyonu uygulanmıştır. Gerçek Shor algoritması kuantum devreleriyle çalışsa da, burada simülasyon yalnızca küçük sayılarla sınırlıdır (N = 15, N = 21, vb.).
+
+---
+
+### 📁 sim_and_test_files/shor_classical_sim.py
+
+```python
+import math
+
+def period_finding(a, N):
+    r = 1
+    while pow(a, r, N) != 1:
+        r += 1
+    return r
+
+def shor_classical(N):
+    for a in range(2, N):
+        if math.gcd(a, N) > 1:
+            return math.gcd(a, N), N // math.gcd(a, N)
+    a = 2
+    r = period_finding(a, N)
+    if r % 2 == 0:
+        p = math.gcd(pow(a, r//2) - 1, N)
+        q = math.gcd(pow(a, r//2) + 1, N)
+        if p * q == N:
+            return p, q
+    return None
+
+# Test
+N = 15
+factors = shor_classical(N)
+print(f"Çarpanlar: {factors}")
+```
+
+---
+
+### 🧪 Örnek Çıktı
+
+`Çarpanlar: (3, 5)`
+
+### 📝 Notlar:
+
+- Bu simülasyon, RSA'nın kuantum saldırılara karşı kırılgan yapısını teorik olarak göstermeyi amaçlar.
+- Gerçek kuantum Shor algoritması çok daha büyük N değerleri için kuantum Fourier dönüşümü ile çalışır.
+- CRYSTALS-Kyber gibi MLWE tabanlı algoritmalar bu tür kuantum saldırılara karşı dirençlidir.

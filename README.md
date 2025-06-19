@@ -77,7 +77,7 @@ Tam yol haritası için: [`ROADMAP.md`](./ROADMAP.md)
 
 ---
 
-## Research / *Araştırmalar*
+## References / *Referanslar*
 
 | Topic / *Başlık*              | Link                                        | Description / *Açıklama*                                                         |
 |------------------------------|---------------------------------------------|----------------------------------------------------------------------------------|

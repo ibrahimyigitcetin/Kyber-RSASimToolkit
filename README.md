@@ -77,6 +77,17 @@ Tam yol haritası için: [`ROADMAP.md`](./ROADMAP.md)
 
 ---
 
+## Research / *Araştırmalar*
+
+| Topic / *Başlık*        | Link                                    | Description / *Açıklama*                        |
+|-------------------------|-----------------------------------------|------------------------------------------------|
+| Kyber-RsaSimToolkit Perspective DeepSearch    | [researchs/kyber-rsa_10_trend.md](researchs/kyber-rsa_10_trend.md) | Araç hakkında deepsearch bilgisi.* |
+| Example Perspective Research Pdf  | [researchs/kyber-rsa_10_trend.pdf](researchs/kyber-rsa_10_trend.pdf) | Araştırma sonucunda oluşturulan pdf dosyası* |
+| Kyber-RSASimToolkit Trends DeepSearch    | [researchs/kyber-rsasimtoolkit_trends.md](researchs/kyber-rsasimtoolkit_trends.md) | Araç hakkında deepsearch bilgisi.* |
+| Example Trends Research Pdf  | [researchs/kyber_rsasimtoolkit_trends.pdf](researchs/kyber_rsasimtoolkit_trends.pdf) | Araştırma sonucunda oluşturulan pdf dosyası* |
+
+---
+
 ## References / *Referanslar*
 
 | Topic / *Başlık*              | Link                                        | Description / *Açıklama*                                                         |

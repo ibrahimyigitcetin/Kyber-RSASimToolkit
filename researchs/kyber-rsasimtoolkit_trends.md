@@ -176,13 +176,3 @@ Bu trendlerin entegrasyonu, **KyberAndRSASimToolkit**’i 2025 ve sonrasında po
 49. Microsoft Research. “Post-Quantum Hybrid Protocols.” 2025. [[https://www.microsoft.com/en-us/research]]([https://www.microsoft.com/en-us/research])  
 50. Google Security Blog. “liboqs Integration.” 2025. [[https://security.googleblog.com]]([https://security.googleblog.com])  
 51. IEEE Xplore. “Educational Resources for PQC.” 2025. [[https://ieeexplore.ieee.org]]([https://ieeexplore.ieee.org])
-
-*(Kaynak listesini gerektiği gibi kısaltabilir ya da uzatabilirsiniz.)*
-
----
-
-**📌 Kullanım Önerisi:**  
-Bu Markdown dosyasını `README.md`, `docs/simulation_trends.md` veya projenizde uygun gördüğünüz başka bir yere ekleyebilirsiniz. Başlıkların hiyerarşisini ve liste yapılarını koruyarak kolay okunabilir, profesyonel bir görünüm elde edebilirsiniz.
-
----
-

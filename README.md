@@ -58,8 +58,8 @@ incelemek ve görselleştirmek amacıyla Python diliyle geliştirilmiştir.
 
 ## Team / *Ekip*
 
-- **2320191010** - *İbrahim Yiğit ÇETİN*  
-- **2420191037** - *Eray TURAN*
+- **İbrahim Yiğit ÇETİN** 
+- **Eray TURAN**
 
 ---
 

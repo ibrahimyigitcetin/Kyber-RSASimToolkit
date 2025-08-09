@@ -37,8 +37,8 @@ Bu davranış kurallarıyla ilgili bir sorun bildirmeniz gerekiyorsa lütfen biz
 
 **İletişim Adresi:** 
 
-*İbrahim Yiğit ÇETİN* [ibrahimyigit.cetin@stu.istinye.edu.tr]
-*Eray TURAN* [eray.turan@stu.istinye.edu.tr]
+*İbrahim Yiğit ÇETİN* [ibrahimyigitctn@gmail.com]
+*Eray TURAN* [ahmeteray.turan@gmail.com]
 
 Raporlar gizli tutulacak ve güvenli şekilde ele alınacaktır.
 

@@ -37,7 +37,7 @@ Bu davranış kurallarıyla ilgili bir sorun bildirmeniz gerekiyorsa lütfen biz
 
 **İletişim Adresi:** 
 
-*İbrahim Yiğit ÇETİN* [ibrahimyigitctn@gmail.com]
+*İbrahim Yiğit ÇETİN* [ibrahimyigitcetin@outlook.com]
 *Eray TURAN* [ahmeteray.turan@gmail.com]
 
 Raporlar gizli tutulacak ve güvenli şekilde ele alınacaktır.
